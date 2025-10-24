@@ -1,4 +1,5 @@
 import { apiClient } from '@/utils/apiClient';
+import { getApiUrl } from '@/utils/apiUrl';
 
 // SearchProducts
 export async function getProducts(
@@ -11,8 +12,12 @@ export async function getProducts(
     if (query) params.append('searchQuery', query);
     if (collection) params.append('collections', collection);
     
+    // Use proxy URL in production client-side, direct URL server-side
+    const apiUrl = getApiUrl();
+    const endpoint = `${apiUrl}/SearchProducts?${params.toString()}`;
+    
     return await apiClient.get(
-      `/api/products/SearchProducts?${params.toString()}`,
+      endpoint,
       token
     );
   } catch (error) {
@@ -132,7 +137,11 @@ export async function searchAndFilterProducts(params: FilterParams) {
     if (params.minPrice) queryParams.append('minPrice', params.minPrice.toString());
     if (params.maxPrice) queryParams.append('maxPrice', params.maxPrice.toString());
 
-    return await apiClient.get(`/api/Products/SearchProducts?${queryParams.toString()}`);
+    // Use proxy URL in production client-side
+    const apiUrl = getApiUrl();
+    const endpoint = `${apiUrl}/SearchProducts?${queryParams.toString()}`;
+
+    return await apiClient.get(endpoint);
   } catch (error) {
     console.error('Error searching and filtering products:', error);
     return { success: false, data: [], message: 'Failed to search products' };

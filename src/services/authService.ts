@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:44352/api';
+const API_URL = "http://ecommerce232.runasp.net/api";
 
 interface LoginCredentials {
   email: string;
@@ -22,12 +22,19 @@ interface AuthResponse {
 
 class AuthService {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await axios.post(`${API_URL}/Customers/auth-login`, credentials);
+    const response = await axios.post(
+      `${API_URL}/Customers/auth-login`,
+      credentials
+    );
+    console.log("Login response:", response.data);
     return response.data;
   }
 
   async signup(credentials: SignupCredentials): Promise<AuthResponse> {
-    const response = await axios.post(`${API_URL}/Customers/auth-signup`, credentials);
+    const response = await axios.post(
+      `${API_URL}/Customers/auth-signup`,
+      credentials
+    );
     return response.data;
   }
 
@@ -36,8 +43,14 @@ class AuthService {
     return response.data;
   }
 
-  async facebookLogin(accessToken: string, userID: string): Promise<AuthResponse> {
-    const response = await axios.post(`${API_URL}/auth/facebook`, { accessToken, userID });
+  async facebookLogin(
+    accessToken: string,
+    userID: string
+  ): Promise<AuthResponse> {
+    const response = await axios.post(`${API_URL}/auth/facebook`, {
+      accessToken,
+      userID,
+    });
     return response.data;
   }
 
@@ -46,4 +59,4 @@ class AuthService {
   }
 }
 
-export const authService = new AuthService(); 
+export const authService = new AuthService();
