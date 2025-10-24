@@ -1,8 +1,10 @@
 import { apiClient } from '@/utils/apiClient';
+import { getApiUrl } from '@/utils/apiUrl';
 
 export async function getWishlist(token: string) {
   try {
-    return await apiClient.get('/api/Wishlist/Customer', token);
+    const apiUrl = getApiUrl('wishlist');
+    return await apiClient.get(`${apiUrl}/Customer`, token);
   } catch (error) {
     console.error('Error fetching wishlist:', error);
     return { success: false, data: [], message: 'Failed to fetch wishlist' };
@@ -15,8 +17,9 @@ export async function addItemToWishlist(
   token: string
 ) {
   try {
+    const apiUrl = getApiUrl('wishlist');
     return await apiClient.post(
-      '/api/Wishlist',
+      apiUrl,
       { productId, productVariantId },
       token
     );
@@ -31,7 +34,8 @@ export async function removeItemFromWishlist(
   token: string
 ) {
   try {
-    return await apiClient.delete(`/api/Wishlist/${productVariantId}`, token);
+    const apiUrl = getApiUrl('wishlist');
+    return await apiClient.delete(`${apiUrl}/${productVariantId}`, token);
   } catch (error) {
     console.error('Error removing item from wishlist:', error);
     return { success: false, message: 'Failed to remove item from wishlist' };

@@ -1,8 +1,10 @@
 import { apiClient } from "@/utils/apiClient";
+import { getApiUrl } from "@/utils/apiUrl";
 
 export async function getBag(token: string) {
   try {
-    return await apiClient.get("/api/Bags/Customer", token);
+    const apiUrl = getApiUrl('bags');
+    return await apiClient.get(`${apiUrl}/Customer`, token);
   } catch (error) {
     console.error("Error fetching bag:", error);
     return { success: false, data: [], message: "Failed to fetch bag items" };
@@ -23,8 +25,9 @@ export async function AddItemToBag(
       sizeId,
       quantity,
     });
+    const apiUrl = getApiUrl('bags');
     const response = await apiClient.post(
-      "/api/Bags",
+      apiUrl,
       { productId, productVariantId, sizeId, quantity },
       token
     );
@@ -46,7 +49,8 @@ export async function UpdateItemInBag(
   token: string
 ) {
   try {
-    return await apiClient.put(`/api/Bags/${bagId}`, { quantity }, token);
+    const apiUrl = getApiUrl('bags');
+    return await apiClient.put(`${apiUrl}/${bagId}`, { quantity }, token);
   } catch (error) {
     console.error("Error updating bag item:", error);
     return { success: false, message: "Failed to update bag item" };
@@ -55,7 +59,8 @@ export async function UpdateItemInBag(
 
 export async function removeItemFromBag(bagId: number, token: string) {
   try {
-    return await apiClient.delete(`/api/Bags/${bagId}`, token);
+    const apiUrl = getApiUrl('bags');
+    return await apiClient.delete(`${apiUrl}/${bagId}`, token);
   } catch (error) {
     console.error("Error removing item from bag:", error);
     return { success: false, message: "Failed to remove item from bag" };
