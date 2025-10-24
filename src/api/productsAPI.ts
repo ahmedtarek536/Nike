@@ -92,7 +92,11 @@ export async function AddReveiwToProduct(
 
 export async function GetSuggestionProducts(query: string) {
   try {
-    const response = await apiClient.get(`/api/Products/Suggestion/${query}`);
+    // Use proxy URL in production client-side
+    const apiUrl = getApiUrl('products');
+    const endpoint = `${apiUrl}/Suggestion/${query}`;
+    
+    const response = await apiClient.get(endpoint);
     return response.data || [];
   } catch (error) {
     console.error('Error fetching product suggestions:', error);
@@ -102,7 +106,11 @@ export async function GetSuggestionProducts(query: string) {
 
 export async function SearchProducts(query: string) {
   try {
-    const response = await apiClient.get(`/api/Products/Search/${query}`);
+    // Use proxy URL in production client-side
+    const apiUrl = getApiUrl('products');
+    const endpoint = `${apiUrl}/Search/${query}`;
+    
+    const response = await apiClient.get(endpoint);
     return response.data || [];
   } catch (error) {
     console.error('Error searching products:', error);

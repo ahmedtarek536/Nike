@@ -101,7 +101,6 @@ function ProductsContent() {
               />
             </div>
             <div className="text-sm text-gray-500">
-              {searchParams?.get("search")}
               {products.length} Products Found
             </div>
           </div>
@@ -155,7 +154,9 @@ function ProductsContent() {
 
 export default function ProductsPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center">Loading products...</div>}>
+    <Suspense
+      fallback={<div className="p-8 text-center">Loading products...</div>}
+    >
       <ProductsContent />
     </Suspense>
   );
